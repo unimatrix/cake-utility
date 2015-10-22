@@ -1,7 +1,7 @@
 # CakePHP 3 Borg Tools
 
 [![Version](https://img.shields.io/packagist/v/highstrike/cakephp-borg.svg?style=flat-square)](https://packagist.org/packages/highstrike/cakephp-borg)
-[![Total Downloads](https://img.shields.io/packagist/dt/highstrike/cakephp-borg.svg?style=flat-square)](https://packagist.org/packages/highstrike/cakephp-borg)
+[![Total Downloads](https://img.shields.io/packagist/dt/highstrike/cakephp-borg.svg?style=flat-square)](https://packagist.org/packages/highstrike/cakephp-borg/stats)
 [![License](https://img.shields.io/packagist/l/highstrike/cakephp-borg.svg?style=flat-square)](LICENSE.txt)
 
 ## Installation
