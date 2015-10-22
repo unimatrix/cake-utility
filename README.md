@@ -11,5 +11,5 @@ You can install this plugin into your CakePHP application using [composer](http:
 The recommended way to install composer packages is:
 
 ```
-composer require highstrike/cakephp-borg:1.0.x-dev
+composer require highstrike/cakephp-borg:~1.0
 ```
