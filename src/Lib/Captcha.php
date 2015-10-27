@@ -6,6 +6,24 @@ namespace Borg\Lib;
  * Captcha
  * Math captcha for forms
  *
+ * Usage exmaple (in controller)
+ * ----------------------------------------
+ * use Borg\Lib\Captcha;
+ *
+ * // init captcha
+ * $this->_captcha = new Captcha();
+ * $session = $this->request->session();
+ *
+ * // use sessions and set into layout
+ * $key = 'Captcha->' . $this->request->controller .'-'. $this->request->action;
+ * $this->_captcha->set($session->read($key));
+ * $session->write($key, $this->_captcha->get());
+ * $this->set([$this->_captcha->field => (string)$this->_captcha]);
+ *
+ * // validate on post submit
+ * if(!$this->_captcha->verify($this->request->data))
+ *     $model->errors('captcha', ['Rezultatul matematic nu este corect']);
+ *
  * @author Borg
  * @version 0.1
  */

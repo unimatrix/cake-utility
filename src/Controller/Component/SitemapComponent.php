@@ -12,8 +12,10 @@ use Cake\I18n\Time;
  * Sitemap component
  * Basic sitemap implementation
  *
- * Example of route configured for sitemap
+ * Example of routes configured for sitemap
+ * --------------------------------------------------
  * $routes->connect('/', ['controller' => 'Index', 'action' => 'index'], ['sitemap' => ['modified' => time(), 'frequency' => 'daily', 'priority' => '1.0']]);
+ * $routes->connect('/page', ['controller' => 'Page', 'action' => 'display'], ['sitemap' => ['modified' => time(), 'frequency' => 'monthly', 'priority' => '0.5']]);
  *
  * @author Borg
  * @version 0.1

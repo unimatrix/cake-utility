@@ -4,43 +4,56 @@ namespace Borg\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Mailer\Email;
+use Borg\Lib\Misc;
 
 /**
  * Email component
  * Handle debug and normal mail operations
  *
  * Config example:
- * -----------------------------------------------
-    'EmailTransport' => [
-        'default' => [
-            'className' => 'Mail',
-            'additionalParameters' => '-fcontact@domain.tld',
-        ],
-    ],
-
-    'Email' => [
-        'default' => [
-            'transport' => 'default',
-            'emailFormat' => 'html',
-            'from' => ['contact@domain.tld' => 'domain.tld'],
-            'sender' => ['contact@domain.tld' => 'domain.tld'],
-            'to' => ['name1@company.tld', 'name2@company.tld'],
-            'bcc' => 'monitor@borg.tld',
-            'headers' => ['X-Mailer' => 'domain.tld'],
-            'charset' => 'utf-8',
-            'headerCharset' => 'utf-8',
-        ],
-        'debug' => [
-            'transport' => 'default',
-            'emailFormat' => 'html',
-            'from' => ['contact@domain.tld' => 'domain.tld'],
-            'to' => 'monitor@borg.tld',
-            'log' => true,
-            'charset' => 'utf-8',
-            'headerCharset' => 'utf-8',
-        ],
-    ],
- * -----------------------------------------------
+ * ----------------------------------------------------------------
+ * 'EmailTransport' => [
+ *     'default' => [
+ *         'className' => 'Mail',
+ *         'additionalParameters' => '-fcontact@domain.tld',
+ *     ],
+ * ],
+ *
+ * 'Email' => [
+ *     'default' => [
+ *         'transport' => 'default',
+ *         'emailFormat' => 'html',
+ *         'from' => ['contact@domain.tld' => 'domain.tld'],
+ *         'sender' => ['contact@domain.tld' => 'domain.tld'],
+ *         'to' => ['name1@company.tld', 'name2@company.tld'],
+ *         'bcc' => 'monitor@borg.tld',
+ *         'headers' => ['X-Mailer' => 'domain.tld'],
+ *         'charset' => 'utf-8',
+ *         'headerCharset' => 'utf-8',
+ *     ],
+ *     'debug' => [
+ *         'transport' => 'default',
+ *         'emailFormat' => 'html',
+ *         'from' => ['contact@domain.tld' => 'domain.tld'],
+ *         'to' => 'monitor@borg.tld',
+ *         'log' => true,
+ *         'charset' => 'utf-8',
+ *         'headerCharset' => 'utf-8',
+ *     ],
+ * ],
+ *
+ * Usage example:
+ * ----------------------------------------------------------------
+ * $this->loadComponent('Borg.Email');
+ *
+ * // send email
+ * $this->Email->send([
+ *     'subject' => 'Solicitare contact',
+ *     'form' => $this->request->data
+ * ]);
+ *
+ * // debug
+ * $this->Email->debug('New subscriber', $this->request->data['email'], true, false);
  *
  * @author Borg
  * @version 0.1
@@ -89,20 +102,32 @@ class EmailComponent extends Component
         // append brand to subject
         $subject = $brand . ' report: [' . implode('->', $location) . '] ' . $subject;
 
+        // body start
+        $body = $body == strip_tags($body) ? nl2br($body) : $body;
+        if($request || $server)
+            $body .= '<br /><br />';
+
         // show request
         if($request) {
-            $body .= "\n\nPOST\n".var_export($_POST, true);
-            $body .= "\n\nGET\n".var_export($_GET, true);
-            if (isset($_COOKIE))  $body .= "\n\nCOOKIE\n".var_export($_COOKIE, true);
-            if (isset($_SESSION)) $body .= "\n\nSESSION\n".var_export($_SESSION, true);
+            if(isset($_POST) && !empty($_POST))
+                $body .= Misc::dump($_POST, '$_POST', true);
+
+            if(isset($_GET) && !empty($_GET))
+                $body .= Misc::dump($_GET, '$_GET', true);
+
+            if(isset($_COOKIE) && !empty($_COOKIE))
+                $body .= Misc::dump($_COOKIE, '$_COOKIE', true);
+
+            if(isset($_SESSION) && !empty($_SESSION))
+                $body .= Misc::dump($_SESSION, '$_SESSION', true);
         }
 
         // show server
         if($server)
-            $body .= "\n\nSERVER\n".var_export($_SERVER, true);
+            $body .= Misc::dump($_SERVER, '$_SERVER', true);
 
         // send email
-        $email->subject($subject)->send(nl2br($body));
+        $email->subject($subject)->send($body);
     }
 
     /**

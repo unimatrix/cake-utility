@@ -9,6 +9,12 @@ use Cake\Network\Exception\NotFoundException;
  * Social controller
  * Counter for social posts
  *
+ * Usage:
+ * -----------------------------------
+ * Perform an ajax request to this controller (default route is yoursite/borg/social/counter)
+ * The post must contain the key urls which has to be an serialized array that is then base64 encoded
+ * containing one or more url to check
+ *
  * @author Borg
  * @version 0.1
  */

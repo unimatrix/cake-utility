@@ -10,6 +10,11 @@ use Cake\ORM\Entity;
  * Nullable
  * add null to null fields instead of ''
  *
+ * Example:
+ * ----------------------------------------------------------
+ * // add in the initialize function from a model table file
+ * $this->addBehavior('Borg.Nullable');
+ *
  * @author Borg
  * @version 0.1
  */

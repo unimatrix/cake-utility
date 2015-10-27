@@ -13,6 +13,18 @@ use Cake\Utility\Inflector;
  * Will minify HTML
  * Will combine and minify JS and CSS files
  *
+ * Usage:
+ * ---------------------------------------------------
+ * $this->Minify->style('your-css-file'); // or array
+ * $this->Minify->fetch('style');
+ *
+ * $this->Minify->script('your-script'); // or array
+ * $this->Minify->fetch('script');
+ *
+ * Simulate live in development:
+ * ---------------------------------------------------
+ * $this->Minify->fetch('style', true);
+ *
  * @author Borg
  * @version 0.7
  */
