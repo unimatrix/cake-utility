@@ -147,7 +147,10 @@
  */
 Cookies.policy = function() { 'use strict';
 	var store = {
+		message: 'Acest site folosește cookies pentru a-ți oferi o experiență cât mai plăcută. Continuarea navigării implică acceptarea lor.',
+		accept: 'Sunt de acord',
 		page: '/cookies',
+		details: 'Mai multe detalii',
 		parent: $('body')
 
 	// build
@@ -155,10 +158,10 @@ Cookies.policy = function() { 'use strict';
 		// do html
 		var html = '<div class="cookie-policy">' +
 	        '<div>' +
-	            '<span>Acest site folosește cookies pentru a-ți oferi o experiență cât mai plăcută. Continuarea navigării implică acceptarea lor.</span>' +
+	            '<span>' + store.message + '</span>' +
 	            '<div>' +
-	            	'<a href="javascript:void(0);">Sunt de acord</a>' +
-	            	'<a href="' + store.page + '" target="_blank" rel="nofollow">Mai multe detalii</a>' +
+	            	'<a href="javascript:void(0);">' + store.accept + '</a>' +
+	            	'<a href="' + store.page + '" target="_blank" rel="nofollow">' + store.details + '</a>' +
 	            '</div>' +
 	        '</div>' +
 	    '</div>' +
