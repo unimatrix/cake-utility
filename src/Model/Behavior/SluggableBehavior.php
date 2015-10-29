@@ -10,21 +10,33 @@ use Cake\Utility\Inflector;
 
 /**
  * Sluggable
- * slug titles like 'A nice article' to 'a-nice-article'
+ * slugify a field from 'A nice article' to 'a-nice-article'
  *
  * Configuration:
  * -------------------------------------------------------
  * $this->addBehavior('Borg.Sluggable', [
- *     'field' => 'username',
- *     'slug' => 'slug_username',
- *     'replacement' => '_'
+ *     'field' => 'title',
+ *     'slug' => 'slug',
+ *     'replacement' => '-'
  * ]);
+ *
+ * Multiple fields to sluggify:
+ * -------------------------------------------------------
+ * $this->addBehavior('Borg.Sluggable', ['multiple' => [
+ *     'field' => 'title',
+ *     'slug' => 'slug',
+ *     'replacement' => '-'
+ * ], [
+ *     'field' => 'title',
+ *     'slug' => 'slug',
+ *     'replacement' => '-'
+ * ]]);
  *
  * Slug finder:
  * -----------------------------------
  * $this->Users->find('slug', [
  *     'slug' => 'your-slug-here',
- *     'slugField' => 'Users.slug'
+ *     'slugField' => 'Table.slug'
  * ]);
  *
  * @author Borg
@@ -41,6 +53,7 @@ class SluggableBehavior extends Behavior {
 		'field' => 'title',
 		'slug' => 'slug',
 		'replacement' => '-',
+	    'multiple' => []
 	];
 
     /**
@@ -52,8 +65,20 @@ class SluggableBehavior extends Behavior {
      */
 	public function slug(Entity $entity) {
 		$config = $this->config();
-		$value = $entity->get($config['field']);
-		$entity->set($config['slug'], strtolower(Inflector::slug($value, $config['replacement'])));
+
+		// one field to slugify
+		if(empty($config['multiple'])) {
+		    $value = $entity->get($config['field']);
+		    $entity->set($config['slug'], strtolower(Inflector::slug($value, $config['replacement'])));
+
+        // multiple fields to slugify
+		} else {
+		    foreach($config['multiple'] as $one) {
+		        $value = $entity->get($one['field']);
+		        $replacement = isset($one['replacement']) ? $one['replacement'] : $config['replacement'];
+		        $entity->set($one['slug'], strtolower(Inflector::slug($value, $replacement)));
+		    }
+		}
 	}
 
     /**
