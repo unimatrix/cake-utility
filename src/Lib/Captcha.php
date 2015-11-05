@@ -87,6 +87,6 @@ class Captcha {
             }
         };
 
-        return $f($this->_a) . ' plus ' . $f($this->_b);
+        return $f($this->_a) . ' ' . __('plus') . ' ' . $f($this->_b);
     }
 }
