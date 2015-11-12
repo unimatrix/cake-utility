@@ -147,11 +147,50 @@
  */
 Cookies.policy = function() { 'use strict';
 	var store = {
+		sticky: false,
 		message: 'Acest site folosește cookies pentru a-ți oferi o experiență cât mai plăcută. Continuarea navigării implică acceptarea lor.',
 		accept: 'Sunt de acord',
 		page: '/cookies',
 		details: 'Mai multe detalii',
 		parent: $('body')
+
+	// html5 sticky footer
+	}, _html5 = function() {
+		// do html
+		var html = '<div class="cookie-policy">' +
+	        '<div>' +
+	            '<span>' + store.message + '</span>' +
+	            '<div>' +
+	            	'<a href="javascript:void(0);">' + store.accept + '</a>' +
+	            	'<a href="' + store.page + '" target="_blank" rel="nofollow">' + store.details + '</a>' +
+	            '</div>' +
+	        '</div>' +
+	    '</div>';
+
+		// append to parent
+		store.parent.append(html);
+
+		// define policy and spacer
+		var policy = $('div.cookie-policy', store.parent);
+
+		// setup the spacer
+		$('body').css({marginBottom: parseInt($('body').css('marginBottom').replace('px', '')) + policy.outerHeight()});
+		$('footer').css({marginBottom: parseInt($('footer').css('marginBottom').replace('px', '')) + policy.outerHeight()});
+
+		// on i agree click
+		$('div.cookie-policy > div > div > a:first-child', store.parent).on('click', function() {
+			// hide element
+            policy.fadeOut('fast', function() {
+        		$('body').removeAttr('style');
+        		$('footer').removeAttr('style');
+            });
+
+			// set cookie
+			Cookies.set('cookie_accept', '1', {
+				expires: 30,
+				path: '/'
+			});
+		});
 
 	// build
 	}, _build = function() {
@@ -198,7 +237,7 @@ Cookies.policy = function() { 'use strict';
 
 		// build cookies
 		if(Cookies.get('cookie_accept') !== '1')
-			_build();
+			store.sticky ? _html5() : _build();
 	};
 
 	// public, yay
