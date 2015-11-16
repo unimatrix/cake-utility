@@ -13,6 +13,24 @@ use Cake\Utility\Inflector;
  * Will minify HTML
  * Will combine and minify JS and CSS files
  *
+ * Load:
+ * ---------------------------------------------------
+ * This helper must be loaded in your View/AppView.php
+ * before you can use it
+ *
+ * $this->loadHelper('Borg.Minify', [
+ *     'html' => [
+ *         'compression' => true
+ *     ], 'css' => [
+ *         'path' => '/cache-css', // without trailing slash
+ *         'compression' => true
+ *     ], 'js' => [
+ *         'path' => '/cache-js', // without trailing slash
+ *         'compression' => true,
+ *         'async' => true
+ *     ]
+ * ]);
+ *
  * Usage:
  * ---------------------------------------------------
  * $this->Minify->style('your-css-file'); // or array
@@ -43,7 +61,8 @@ class MinifyHelper extends Helper {
             'path' => '/cache-js', // without trailing slash
             'compression' => true,
             'async' => true
-    ]];
+        ]
+    ];
 
     // container for css and js files
     private $css = ['intern' => [], 'extern' => []];
