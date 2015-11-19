@@ -1,8 +1,8 @@
 {
-    "name": "highstrike/cakephp-borg",
-    "description": "CakePHP 3.0+ tools",
+    "name": "unimatrix/cake-utility",
+    "description": "A collection of CakePHP 3 utility libraries",
     "type": "cakephp-plugin",
-    "homepage": "http://github.com/highstrike/cakephp-borg",
+    "homepage": "https://github.com/unimatrix/cake-utility",
     "license": "MIT",
     "require": {
         "cakephp/cakephp": "~3.1",
@@ -10,7 +10,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Borg\\": "src"
+            "unimatrix\\utility\\": "src"
         }
     }
 }
