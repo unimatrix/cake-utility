@@ -1,4 +1,4 @@
-# A collection of CakePHP 3 utility libraries
+# CakePHP 3 Utility
 
 [![Version](https://img.shields.io/packagist/v/unimatrix/cakephp-utility.svg?style=flat-square)](https://packagist.org/packages/unimatrix/cakephp-utility)
 [![Total Downloads](https://img.shields.io/packagist/dt/unimatrix/cakephp-utility.svg?style=flat-square)](https://packagist.org/packages/unimatrix/cakephp-utility/stats)
