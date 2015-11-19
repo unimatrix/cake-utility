@@ -1,6 +1,6 @@
 <?php
 
-namespace Borg\Auth;
+namespace Unimatrix\Utility\Auth;
 
 use Cake\Core\Configure;
 use Cake\Network\Request;
@@ -20,14 +20,14 @@ use Cake\Auth\BaseAuthenticate;
  * Usage example:
  * ------------------------------------
  * $this->loadComponent('Auth', [
- *     'authenticate' => ['Borg.Simple'],
+ *     'authenticate' => ['Unimatrix/Utility.Simple'],
  *     'loginAction' => [
  *         'controller' => 'Admin',
  *         'action' => 'login'
  *     ]
  * ]);
  *
- * @author Borg
+ * @author Flavius
  * @version 0.1
  */
 class SimpleAuthenticate extends BaseAuthenticate
