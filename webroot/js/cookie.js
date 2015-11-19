@@ -142,7 +142,7 @@
  * Cookie Policy
  * Will create the notice html for your cookie policy
  *
- * @author Borg
+ * @author Flavius
  * @version 0.2
  */
 Cookies.policy = function() { 'use strict';
