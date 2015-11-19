@@ -1,7 +1,7 @@
 /**
  * Virality Script
  *
- * @author Borg
+ * @author Flavius
  * @version 0.1
  */
 Frontend.virality = function() { 'use strict';
