@@ -1,24 +1,24 @@
 <?php
 
-namespace Borg\Lib;
+namespace Unimatrix\Utility\Lib;
 
 /**
  * Helpers
  * Contains helper functions
  *
- * @author Borg
+ * @author Flavius
  * @version 0.1
  */
 class Misc {
     /**
-     * Borg dump
+     * Unimatrix dump
      *
      * To have access to this function directly just by writing 'dump(...)' in your code,
-     * load your borg plugin like this in bootstrap or use directly via Misc::dump(...)
+     * load your unimatrix\utility plugin like this in bootstrap or use directly via Misc::dump(...)
      * ------------------------------------------------------------------------------------
-     * // Load borg plugin @ bootstrap
-     * use Borg\Lib\Misc;
-     * Plugin::load('Borg', ['routes' => true]);
+     * // Load unimatrix\utility plugin @ bootstrap
+     * use Unimatrix\Utility\Lib\Misc;
+     * Plugin::load('Unimatrix/Utility', ['routes' => true]);
      * function dump($a, $b = null, $c = false) {
      *     return Misc::dump($a, $b, $c);
      * }
