@@ -1,8 +1,8 @@
 <?php
 
-namespace Borg\Controller;
+namespace Unimatrix\Utility\Controller;
 
-use Borg\Controller\AppController;
+use Unimatrix\Utility\Controller\AppController;
 use Cake\Network\Exception\NotFoundException;
 
 /**
@@ -11,11 +11,11 @@ use Cake\Network\Exception\NotFoundException;
  *
  * Usage:
  * -----------------------------------
- * Perform an ajax request to this controller (default route is yoursite/borg/social/counter)
+ * Perform an ajax request to this controller (default route is yoursite/unimatrix/utility/social/counter)
  * The post must contain the key urls which has to be an serialized array that is then base64 encoded
  * containing one or more url to check
  *
- * @author Borg
+ * @author Flavius
  * @version 0.1
  */
 class SocialController extends AppController
@@ -77,7 +77,7 @@ class SocialController extends AppController
 /**
  * Social network counter
  *
- * @author Borg
+ * @author Flavius
  * @version 0.1
  */
 class Social {
