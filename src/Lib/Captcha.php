@@ -1,6 +1,6 @@
 <?php
 
-namespace Borg\Lib;
+namespace Unimatrix\Utility\Lib;
 
 /**
  * Captcha
@@ -8,7 +8,7 @@ namespace Borg\Lib;
  *
  * Usage exmaple (in controller)
  * ----------------------------------------
- * use Borg\Lib\Captcha;
+ * use Unimatrix\Utility\Lib\Captcha;
  *
  * // init captcha
  * $this->_captcha = new Captcha();
@@ -24,7 +24,7 @@ namespace Borg\Lib;
  * if(!$this->_captcha->verify($this->request->data))
  *     $model->errors('captcha', ['Rezultatul matematic nu este corect']);
  *
- * @author Borg
+ * @author Flavius
  * @version 0.1
  */
 class Captcha {
