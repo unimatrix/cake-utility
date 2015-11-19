@@ -10,7 +10,7 @@
     },
     "autoload": {
         "psr-4": {
-            "unimatrix\\utility\\": "src"
+            "Unimatrix\\Utility\\": "src"
         }
     }
 }
