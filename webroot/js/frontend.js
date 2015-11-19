@@ -1,7 +1,7 @@
 /**
  * Frontend Script
  *
- * @author Borg
+ * @author Flavius
  * @version 0.6
  */
 var dump = function(what) { 'use strict';
