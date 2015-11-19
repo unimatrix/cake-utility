@@ -121,7 +121,7 @@ var Frontend = function() { 'use strict';
     // init
     }, __construct = function() {
         dump("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        dump('| Unimatrix Venture digital platform. |');
+        dump('| Unimatrix Venture Digital Platform. |');
         dump("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
         // preload images
