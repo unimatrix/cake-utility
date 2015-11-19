@@ -1,6 +1,6 @@
 <?php
 
-namespace Borg\Controller\Component;
+namespace Unimatrix\Utility\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Routing\Router;
@@ -17,7 +17,7 @@ use Cake\I18n\Time;
  * $routes->connect('/', ['controller' => 'Index', 'action' => 'index'], ['sitemap' => ['modified' => time(), 'frequency' => 'daily', 'priority' => '1.0']]);
  * $routes->connect('/page', ['controller' => 'Page', 'action' => 'display'], ['sitemap' => ['modified' => time(), 'frequency' => 'monthly', 'priority' => '0.5']]);
  *
- * @author Borg
+ * @author Flavius
  * @version 0.1
  */
 class SitemapComponent extends Component
@@ -43,7 +43,7 @@ class SitemapComponent extends Component
         $this->RequestHandler->respondAs('xml');
 
         // start xml
-        $xml = Xml::build(sprintf($this->_root, $this->_path('Borg.xsl/sitemap.xsl')));
+        $xml = Xml::build(sprintf($this->_root, $this->_path('Unimatrix/Utility.xsl/sitemap.xsl')));
 
         // get urls from router
         $this->_router();
