@@ -1,6 +1,6 @@
 <?php
 
-namespace Borg\Model\Behavior;
+namespace Unimatrix\Utility\Model\Behavior;
 
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
@@ -14,7 +14,7 @@ use Cake\Utility\Inflector;
  *
  * Configuration:
  * -------------------------------------------------------
- * $this->addBehavior('Borg.Sluggable', [
+ * $this->addBehavior('Unimatrix/Utility.Sluggable', [
  *     'field' => 'title',
  *     'slug' => 'slug',
  *     'replacement' => '-'
@@ -22,7 +22,7 @@ use Cake\Utility\Inflector;
  *
  * Multiple fields to sluggify:
  * -------------------------------------------------------
- * $this->addBehavior('Borg.Sluggable', ['multiple' => [
+ * $this->addBehavior('Unimatrix/Utility.Sluggable', ['multiple' => [
  *     'field' => 'title',
  *     'slug' => 'slug',
  *     'replacement' => '-'
@@ -39,7 +39,7 @@ use Cake\Utility\Inflector;
  *     'slugField' => 'Table.slug'
  * ]);
  *
- * @author Borg
+ * @author Flavius
  * @version 0.1
  */
 class SluggableBehavior extends Behavior {
