@@ -1,6 +1,6 @@
 <?php
 
-namespace Borg\Model\Behavior;
+namespace Unimatrix\Utility\Model\Behavior;
 
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
@@ -13,9 +13,9 @@ use Cake\ORM\Entity;
  * Example:
  * ----------------------------------------------------------
  * // add in the initialize function from a model table file
- * $this->addBehavior('Borg.Nullable');
+ * $this->addBehavior('Unimatrix/Utility.Nullable');
  *
- * @author Borg
+ * @author Flavius
  * @version 0.1
  */
 class NullableBehavior extends Behavior
