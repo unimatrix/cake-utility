@@ -21,7 +21,7 @@ Frontend.virality = function() { 'use strict';
         $.ajax({
             cache: true,
             dataType: 'script',
-            url: '//connect.facebook.net/en_US/all.js'
+            url: '//connect.facebook.net/en_US/all.js',
             success: _fb_ready
         });
 
