@@ -1,6 +1,6 @@
 <?php
 
-namespace Borg\Lib;
+namespace Unimatrix\Utility\Lib;
 
 use Cake\Core\Configure;
 
@@ -14,11 +14,11 @@ use Cake\Core\Configure;
  * 'Paranoia' => 'secret_key',
  *
  * // controller
- * use Borg\Lib\Paranoia;
+ * use Unimatrix\Utility\Lib\Paranoia;
  *
  * $encrypted = Paranoia::encrypt('string_to_encrypt'));
  *
- * @author Borg
+ * @author Flavius
  * @version 0.2
  */
 class Paranoia {
