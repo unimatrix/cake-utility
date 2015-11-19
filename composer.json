@@ -2,7 +2,7 @@
     "name": "unimatrix/cakephp-utility",
     "description": "A collection of CakePHP 3 utility libraries",
     "type": "cakephp-plugin",
-    "homepage": "https://github.com/unimatrix/cake-utility",
+    "homepage": "http://venture.unimatrix.ro",
     "license": "MIT",
     "require": {
         "cakephp/cakephp": "~3.1",
