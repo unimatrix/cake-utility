@@ -1,6 +1,6 @@
 <?php
 
-namespace Borg\View\Helper;
+namespace Unimatrix\Utility\View\Helper;
 
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
@@ -17,7 +17,7 @@ use Cake\Utility\Text;
  * This helper must be loaded in your View/AppView.php
  * before you can use it
  *
- * $this->loadHelper('Borg.Obfuscate');
+ * $this->loadHelper('Unimatrix/Utility.Obfuscate');
  *
  * Usage:
  * ---------------------------------------------------
@@ -29,7 +29,7 @@ use Cake\Utility\Text;
  *     'bcc' => 'bcc@something.com',
  * ]);
  *
- * @author Borg
+ * @author Flavius
  * @version 0.1
  */
 class ObfuscateHelper extends Helper {
