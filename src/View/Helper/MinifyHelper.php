@@ -1,6 +1,6 @@
 <?php
 
-namespace Borg\View\Helper;
+namespace Unimatrix\Utility\View\Helper;
 
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
@@ -18,7 +18,7 @@ use Cake\Utility\Inflector;
  * This helper must be loaded in your View/AppView.php
  * before you can use it
  *
- * $this->loadHelper('Borg.Minify', [
+ * $this->loadHelper('Unimatrix/Utility.Minify', [
  *     'html' => [
  *         'compression' => true
  *     ], 'css' => [
@@ -43,7 +43,7 @@ use Cake\Utility\Inflector;
  * ---------------------------------------------------
  * $this->Minify->fetch('style', true);
  *
- * @author Borg
+ * @author Flavius
  * @version 0.7
  */
 class MinifyHelper extends Helper {
