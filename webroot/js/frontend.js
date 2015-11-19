@@ -2,7 +2,7 @@
  * Frontend Script
  *
  * @author Borg
- * @version 0.5
+ * @version 0.6
  */
 var dump = function(what) { 'use strict';
     if(typeof console != 'undefined')
@@ -97,6 +97,12 @@ var Frontend = function() { 'use strict';
 			});
 		}});
 
+    // image preloader
+    }, _preload = function(x) {
+        $(x).each(function () {
+            $('<img />').attr('src', this).appendTo('section.preload');
+        });
+
     // load analytics
     }, _analytics = function() {
     	// google
@@ -115,11 +121,11 @@ var Frontend = function() { 'use strict';
     // init
     }, __construct = function() {
         dump("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        dump('| 7 of 8, Web Drone of Unimatrix 7384 |');
+        dump('| Unimatrix Venture digital platform. |');
         dump("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
         // preload images
-        Frontend.helpers.preload(typeof Preload === 'undefined' ? [] : Preload);
+        _preload(typeof Preload === 'undefined' ? [] : Preload);
 
         // load analytics
         if(!DEV_ENV)
@@ -129,203 +135,12 @@ var Frontend = function() { 'use strict';
     // public, yay
     return {
         init: __construct,
-        mobile: mobile,
-        minicart: minicart,
         ajax: ajax,
-        load: load
+        load: load,
+        mobile: mobile,
+        minicart: minicart
     };
 }();
-
-// frontend helpers
-Frontend.helpers = function() { 'use strict';
-    var store = {
-
-    // image preloader
-    }, preload = function(x) {
-        $(x).each(function () {
-            $('<img />').attr('src', this).appendTo('section.preload');
-        });
-    };
-
-    // public, yay
-    return {
-        preload: preload
-    }
-}();
-
-// Frontend social
-Frontend.social = function() { 'use strict';
-    var store = {
-        fb_app_id: $('meta[property="fb:app_id"]').attr('content'),
-        container: undefined,
-        fb_done: false,
-        gl_done: false
-
-    // load facebook sdk
-    }, _fb_load = function() {
-        // already loaded?
-        if(store.fb_done)
-            return _fb_ready();
-
-        // use ajax
-        $.ajax({
-            cache: true,
-            dataType: 'script',
-            url: '//connect.facebook.net/en_US/all.js'
-//          , success: _fb_ready // not needed because of window.fbAsyncInit (best practice)
-        });
-
-    // load google platform
-    }, _gl_load = function() {
-        // already loaded?
-        if(store.gl_done)
-            return _gl_ready();
-
-        // use ajax
-        $.ajax({
-            cache: true,
-            dataType: 'script',
-            url: '//apis.google.com/js/platform.js',
-            success: _gl_ready
-        });
-
-    // on facebook ready
-    }, _fb_ready = function () {
-        // app id not found?
-        if(typeof store.fb_app_id == 'undefined')
-            return alert('could not find facebook app id');
-
-        // reset counter
-        $('#facebook_count', store.container).html('~');
-
-        // render
-        $('div.facebook', store.container).html('<fb:like href="'+ store.container.data('href') +'" layout="button" action="like" show_faces="false" share="true"></fb:like>');
-
-        // init fb or just re-render
-        if(!store.fb_done) window.FB.init({ appId: store.fb_app_id, channelURL: WEBROOT + 'channel.php', status: false, cookie: false, oauth: false, xfbml: true });
-        else window.FB.XFBML.parse($('div.facebook', store.container).get(0));
-
-        // mark as done
-        store.fb_done = true;
-
-    // on google ready
-    }, _gl_ready = function() {
-        // mark as done
-        store.gl_done = true;
-
-        // reset counter
-        $('#google_count', store.container).html('~');
-
-        // render
-        $('div.google', store.container).html('<g:plusone href="'+ store.container.data('href') +'" size="medium" annotation="none"></g:plusone>');
-        window.gapi.plusone.go($('div.google', store.container).get(0));
-
-    // do social counter
-    }, virality = function(z, delay) {
-        // no container
-        if(!z.length > 0)
-            return;
-
-        // set container
-        store.container = z;
-
-        // render facebook and google
-        var render = function() {
-            _fb_load();
-            _gl_load();
-        };
-
-        // with delay or without
-        if(delay) window.setTimeout(render, delay);
-        else render();
-
-        // show counters
-        var show = function() {
-            // got mask? make it vanish
-            if($('div.mask', store.container).length > 0)
-                $('div.mask', store.container).fadeOut(200);
-
-            // setup counters
-            Frontend.ajax({type: 'POST', data: {urls: store.container.data('encoded')}, dataType: 'json', url: 'borg/social/counter', success: function(x) {
-                _count($('#facebook_count', store.container), 0, x.f, 500);
-                _count($('#google_count', store.container), 0, x.g, 500);
-            }});
-        }
-
-        // with delay or without
-        if(delay) window.setTimeout(show, delay + 1000);
-        else window.setTimeout(show, 200);
-
-    // 1 by 1 counting animation
-    }, _count = function(ele, start, end, duration) {
-        var range = end - start,
-            minTimer = 50,
-            stepTime = Math.abs(Math.floor(duration / range));
-
-        // never go below minTimer
-        stepTime = Math.max(stepTime, minTimer);
-
-        // get current time and calculate desired end time
-        var startTime = new Date().getTime(),
-            endTime = startTime + duration,
-            timer;
-
-        // format counter
-        var out = function(x) {
-            if (x >= 1e6) x = (x / 1e6).toFixed(2) + "M";
-            else if (x >= 1e3) x = (x / 1e3).toFixed(1) + "k";
-
-            return x;
-        };
-
-        // magic function
-        var run = function() {
-            var now = new Date().getTime();
-            var remaining = Math.max((endTime - now) / duration, 0);
-            var value = Math.round(end - (remaining * range));
-
-            ele.html(out(value));
-            if (value == end)
-                window.clearInterval(timer);
-        };
-
-        // start
-        timer = window.setInterval(run, stepTime);
-        run();
-
-    // window open
-    }, _open = function(url) {
-        // setup window
-        var windowWidth = 500,
-            windowHeight = 520,
-            windowLeft = parseInt((screen.availWidth / 2) - (windowWidth / 2)),
-            windowTop = parseInt((screen.availHeight / 2) - (windowHeight / 2)),
-            windowSize = "width=" + windowWidth + ",height=" + windowHeight + ",left=" + windowLeft + ",top=" + windowTop + ",screenX=" + windowLeft + ",screenY=" + windowTop,
-            windowName = "social",
-            newwindow = window.open(url, windowName, windowSize);
-
-        // do focus
-        if(newwindow.focus)
-            newwindow.focus();
-
-    // init
-    }, __construct = function() {
-        // bind events
-        $('div.social.facebook').on('click', function () { _open(WEBROOT + "social/facebook"); });
-        $('div.social.google').on('click', function () { _open(WEBROOT + "social/google"); });
-    };
-
-    // public, yay
-    return {
-        init: __construct,
-        fb_ready: _fb_ready,
-        virality: virality
-    }
-}();
-
-// social callbacks & settings
-window.fbAsyncInit = Frontend.social.fb_ready;
-window.___gcfg = {parsetags: 'explicit'};
 
 // init frontend on ready
 $(document).ready(Frontend.init);
