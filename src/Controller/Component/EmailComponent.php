@@ -1,10 +1,10 @@
 <?php
 
-namespace Borg\Controller\Component;
+namespace Unimatrix\Utility\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Mailer\Email;
-use Borg\Lib\Misc;
+use Unimatrix\Utility\Lib\Misc;
 
 /**
  * Email component
@@ -44,7 +44,7 @@ use Borg\Lib\Misc;
  *
  * Usage example:
  * ----------------------------------------------------------------
- * $this->loadComponent('Borg.Email');
+ * $this->loadComponent('Unimatrix/Utility.Email');
  *
  * // send email
  * $this->Email->send([
@@ -55,7 +55,7 @@ use Borg\Lib\Misc;
  * // debug
  * $this->Email->debug('New subscriber', $this->request->data['email'], true, false);
  *
- * @author Borg
+ * @author Flavius
  * @version 0.1
  */
 class EmailComponent extends Component
