@@ -1,8 +1,8 @@
-# CakePHP 3 Borg Tools
+# A collection of CakePHP 3 utility libraries
 
-[![Version](https://img.shields.io/packagist/v/highstrike/cakephp-borg.svg?style=flat-square)](https://packagist.org/packages/highstrike/cakephp-borg)
-[![Total Downloads](https://img.shields.io/packagist/dt/highstrike/cakephp-borg.svg?style=flat-square)](https://packagist.org/packages/highstrike/cakephp-borg/stats)
-[![License](https://img.shields.io/packagist/l/highstrike/cakephp-borg.svg?style=flat-square)](LICENSE.txt)
+[![Version](https://img.shields.io/packagist/v/unimatrix/cakephp-utility.svg?style=flat-square)](https://packagist.org/packages/unimatrix/cakephp-utility)
+[![Total Downloads](https://img.shields.io/packagist/dt/unimatrix/cakephp-utility.svg?style=flat-square)](https://packagist.org/packages/unimatrix/cakephp-utility/stats)
+[![License](https://img.shields.io/packagist/l/unimatrix/cakephp-utility.svg?style=flat-square)](LICENSE.txt)
 
 ## Installation
 
@@ -11,5 +11,5 @@ You can install this plugin into your CakePHP application using [composer](http:
 The recommended way to install composer packages is:
 
 ```
-composer require highstrike/cakephp-borg:~1.0
+composer require unimatrix/cakephp-utility:~1.0
 ```
