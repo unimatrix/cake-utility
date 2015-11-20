@@ -133,7 +133,7 @@ Frontend.virality = function() { 'use strict';
                 $('div.mask', store.container).fadeOut(200);
 
             // setup counters
-            Frontend.ajax({type: 'POST', data: {urls: store.container.data('encoded')}, dataType: 'json', url: 'borg/social/counter', success: function(x) {
+            Frontend.ajax({type: 'POST', data: {urls: store.container.data('encoded')}, dataType: 'json', url: 'unimatrix/utility/social/counter', success: function(x) {
                 _count($('#facebook_count', store.container), 0, x.f, 500);
                 _count($('#google_count', store.container), 0, x.g, 500);
             }});

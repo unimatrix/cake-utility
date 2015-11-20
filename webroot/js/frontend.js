@@ -68,35 +68,6 @@ var Frontend = function() { 'use strict';
     	try{ document.createEvent("TouchEvent"); return true; }
     	catch(e){ return false; }
 
-	// minicart load
-	}, minicart = function(a, p) {
-		$.ajax({type: 'get', url: WEBROOT +'magazin/smallcart/', success: function(data) {
-			// nothing in cart?
-			var data = data.match(/window\.cartQty \= \'([a-z0-9\-]+)\'\;/i), count = data ? data[1] : 0;
-			if(count == 0)
-				return false;
-
-			// change link
-			a.attr('href', a.attr('href') + '/checkout/cart/');
-			a.html('Coşul meu');
-
-			// add counter
-			p.css({position: 'relative'});
-			p.append('<span class="noty">' + count + '</span>');
-
-			// animate counter
-			var n = p.find('span');
-			n.fadeIn(250, function() {
-				n.fadeOut(250, function() {
-					n.fadeIn(250, function() {
-						n.fadeOut(250, function(){
-							n.fadeIn(250);
-						})
-					})
-				})
-			});
-		}});
-
     // image preloader
     }, _preload = function(x) {
         $(x).each(function () {
@@ -137,8 +108,7 @@ var Frontend = function() { 'use strict';
         init: __construct,
         ajax: ajax,
         load: load,
-        mobile: mobile,
-        minicart: minicart
+        mobile: mobile
     };
 }();
 

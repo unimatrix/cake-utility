@@ -5,7 +5,6 @@ namespace Unimatrix\Utility\Controller;
 use App\Controller\AppController as BaseController;
 
 /**
- * Borg Controller
  * App controller
  *
  * @author Flavius
