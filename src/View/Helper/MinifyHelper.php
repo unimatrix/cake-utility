@@ -44,7 +44,7 @@ use Cake\Utility\Inflector;
  * $this->Minify->fetch('style', true);
  *
  * @author Flavius
- * @version 0.7
+ * @version 0.8
  */
 class MinifyHelper extends Helper {
     // load html and url helpers
@@ -110,6 +110,11 @@ class MinifyHelper extends Helper {
         if(!is_array($files))
             return;
 
+        // unique check
+        foreach($files as $file)
+            if(in_array($file, $this->css['extern']))
+                return false;
+
         // add each file to group with www_root
         $group = [];
         foreach($files as $url)
@@ -136,6 +141,11 @@ class MinifyHelper extends Helper {
         // not array?
         if(!is_array($files))
             return;
+
+        // unique check
+        foreach($files as $file)
+            if(in_array($file, $this->js['extern']))
+                return false;
 
         // add each file to group with www_root
         $group = [];
@@ -183,14 +193,25 @@ class MinifyHelper extends Helper {
             return $webrootPath;
 
         // do plugin webroot path
-        $segments = explode('/', ltrim($filepath, '/'));
-        $plugin = Inflector::camelize($segments[0]);
-        if(Plugin::loaded($plugin)) {
-            unset($segments[0]);
-            $pluginPath = str_replace('/', DS, Plugin::path($plugin)) . 'webroot' . DS . implode(DS, $segments);
+        $parts = [];
+        $segments = explode('/', $filepath);
+        for($i = 0; $i < 2; $i++) {
+            if(!isset($segments[$i]))
+                break;
 
-            return $pluginPath;
+            $parts[] = Inflector::camelize($segments[$i]);
+            $plugin = implode('/', $parts);
+
+            if($plugin && Plugin::loaded($plugin)) {
+                $segments = array_slice($segments, $i + 1);
+                $pluginWebrootPath = str_replace('/', DS, Plugin::path($plugin)) . 'webroot' . DS . implode(DS, $segments);
+                if(file_exists($pluginWebrootPath))
+                    return $pluginWebrootPath;
+            }
         }
+
+        // not found?
+        throw new CakeException("The path for {$path} could not be resolved");
     }
 
     /**
