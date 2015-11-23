@@ -7,6 +7,7 @@ use Cake\Core\Plugin;
 use Cake\View\Helper;
 use Cake\View\View;
 use Cake\Utility\Inflector;
+use Cake\Core\Exception\Exception;
 
 /**
  * Minify
@@ -44,7 +45,7 @@ use Cake\Utility\Inflector;
  * $this->Minify->fetch('style', true);
  *
  * @author Flavius
- * @version 0.8
+ * @version 0.9
  */
 class MinifyHelper extends Helper {
     // load html and url helpers
@@ -120,6 +121,9 @@ class MinifyHelper extends Helper {
         foreach($files as $url)
             $group[] = $this->path($url, ['pathPrefix' => Configure::read('App.cssBaseUrl'), 'ext' => '.css']);
 
+        // filter
+        $group = array_filter($group);
+
         // array merge
         $this->css['intern'] = array_merge($group, $this->css['intern']);
         $this->css['extern'] = array_merge($files, $this->css['extern']);
@@ -152,6 +156,9 @@ class MinifyHelper extends Helper {
         foreach($files as $url)
             $group[] = $this->path($url, ['pathPrefix' => Configure::read('App.jsBaseUrl'), 'ext' => '.js']);
 
+        // filter
+        $group = array_filter($group);
+
         // array merge
         $this->js['intern'] = array_merge($group, $this->js['intern']);
         $this->js['extern'] = array_merge($files, $this->js['extern']);
@@ -160,12 +167,12 @@ class MinifyHelper extends Helper {
     /**
      * Fetch either combined css or js
      * @param string $what style | script
-     * @throws CakeException
+     * @throws Exception
      */
     public function fetch($what = null, $live = false) {
         // not supported?
         if(!in_array($what, ['style', 'script']))
-            throw new CakeException("{$what} not supported");
+            throw new Exception("{$what} not supported");
 
         // simulate live?
         $this->live = $live;
@@ -179,7 +186,7 @@ class MinifyHelper extends Helper {
      * Get full webroot path for an asset
      * @param string $path
      * @param array $options
-     * @return string
+     * @return string | bool
      */
     private function path($path, array $options = []) {
         // get base and full paths
@@ -211,19 +218,19 @@ class MinifyHelper extends Helper {
         }
 
         // not found?
-        throw new CakeException("The path for {$path} could not be resolved");
+        return false;
     }
 
     /**
      * Attempt to create the filename for the selected resources
      * @param string $what js | css
-     * @throws CakeException
+     * @throws Exception
      * @return string
      */
     private function filename($what = null) {
         // not supported?
         if(!in_array($what, ['css', 'js']))
-            throw new CakeException("{$what} not supported");
+            throw new Exception("{$what} not supported");
 
         $last = 0;
         $loop = $this->$what;
