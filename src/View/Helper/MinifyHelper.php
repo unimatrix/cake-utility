@@ -45,7 +45,7 @@ use Cake\Core\Exception\Exception;
  * $this->Minify->fetch('style', true);
  *
  * @author Flavius
- * @version 0.9
+ * @version 1.0
  */
 class MinifyHelper extends Helper {
     // load html and url helpers
@@ -191,17 +191,16 @@ class MinifyHelper extends Helper {
     private function path($path, array $options = []) {
         // get base and full paths
         $base = $this->Url->assetUrl($path, $options);
-        $base = $this->Url->webroot($base);
+        $fullpath = preg_replace('/^' . preg_quote($this->request->webroot, '/') . '/', '', urldecode($base));
 
         // do webroot path
-        $filepath = preg_replace('/^' . preg_quote($this->request->webroot, '/') . '/', '', urldecode($base));
-        $webrootPath = WWW_ROOT . str_replace('/', DS, $filepath);
+        $webrootPath = WWW_ROOT . str_replace('/', DS, $fullpath);
         if(file_exists($webrootPath))
             return $webrootPath;
 
         // do plugin webroot path
         $parts = [];
-        $segments = explode('/', $filepath);
+        $segments = explode('/', $fullpath);
         for($i = 0; $i < 2; $i++) {
             if(!isset($segments[$i]))
                 break;
@@ -296,7 +295,7 @@ class MinifyHelper extends Helper {
 
                 // replace relative paths to absolute paths
                 foreach($chunks as $idx => $content)
-                    $chunks[$idx] = preg_replace('/(\.\.\/)+/i', $this->Url->build($this->request->webroot, true), $content);
+                    $chunks[$idx] = preg_replace('/(\.\.\/)+/i', $this->Url->build(false, true), $content);
 
                 // compress?
                 if($this->_config['css']['compression']) {
