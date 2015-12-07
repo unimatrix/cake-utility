@@ -295,7 +295,7 @@ class MinifyHelper extends Helper {
 
                 // replace relative paths to absolute paths
                 foreach($chunks as $idx => $content)
-                    $chunks[$idx] = preg_replace('/(\.\.\/)+/i', $this->Url->build(false, true), $content);
+                    $chunks[$idx] = preg_replace('/(\.\.\/)+/i', $this->Url->build('/', true), $content);
 
                 // compress?
                 if($this->_config['css']['compression']) {
