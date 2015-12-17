@@ -37,7 +37,7 @@ class EmailErrorHandler extends ErrorHandler
      */
     public function handleError($code, $description, $file = null, $line = null, $context = null) {
         // send a debug mail with the fatal error
-        if(Configure::read('debug') && !in_array($code, self::$_skipErrors)) {
+        if(!Configure::read('debug') && !in_array($code, self::$_skipErrors)) {
             $mail = new EmailComponent(new ComponentRegistry());
             $mail->debug('Application error', Misc::dump([
                 'code' => $code,
@@ -58,7 +58,7 @@ class EmailErrorHandler extends ErrorHandler
      */
     public function handleException(Exception $exception) {
         // send a debug mail with the fatal exception
-        if(Configure::read('debug') && !in_array(get_class($exception), self::$_skipExceptions)) {
+        if(!Configure::read('debug') && !in_array(get_class($exception), self::$_skipExceptions)) {
             $mail = new EmailComponent(new ComponentRegistry());
             $mail->debug('Application exception', Misc::dump($exception, $exception->getMessage(), true));
         }
