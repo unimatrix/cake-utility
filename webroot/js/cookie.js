@@ -143,7 +143,7 @@
  * Will create the notice html for your cookie policy
  *
  * @author Flavius
- * @version 0.3
+ * @version 0.4
  */
 Cookies.policy = function() { 'use strict';
 	var store = {
@@ -175,7 +175,8 @@ Cookies.policy = function() { 'use strict';
 
 		// setup the spacer
 		$('body').css({marginBottom: parseInt($('body').css('marginBottom').replace('px', '')) + policy.outerHeight()});
-		$('body > footer').css({marginBottom: parseInt($('body > footer').css('marginBottom').replace('px', '')) + policy.outerHeight()});
+		if($('body > footer').length > 0)
+			$('body > footer').css({marginBottom: parseInt($('body > footer').css('marginBottom').replace('px', '')) + policy.outerHeight()});
 
 		// on i agree click
 		$('div.cookie-policy > div > div > a:first-child', store.parent).on('click', function() {
