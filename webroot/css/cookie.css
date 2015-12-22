@@ -13,6 +13,7 @@ div.cookie-policy {
 
     div.cookie-policy > div {
         align-items: center;
+        display: -webkit-inline-flex;
         display: inline-flex;
         margin: 0 auto;
         position: relative;
@@ -21,13 +22,17 @@ div.cookie-policy {
 
         div.cookie-policy > div > span {
             display: block;
-            flex: 1 1 auto;
+            -webkit-flex: auto;
+            -ms-flex: auto;
+            flex: auto;
             line-height: 17px;
             margin: 0 20px;
         }
 
         div.cookie-policy > div > div {
-            flex: 0 0 auto;
+            -webkit-flex: none;
+            -ms-flex: none;
+            flex: none;
             line-height: 17px;
             margin: 0 20px;
             text-align: center;
