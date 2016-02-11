@@ -2,7 +2,7 @@
  * Frontend Script
  *
  * @author Flavius
- * @version 0.6
+ * @version 0.7
  */
 var dump = function(what) { 'use strict';
     if(typeof console != 'undefined')
@@ -16,6 +16,7 @@ if(typeof DEV_ENV == 'undefined') DEV_ENV = true;
 // start frontend
 var Frontend = function() { 'use strict';
     var store = {
+    	version: '1.1.2',
         js: {}
 
     // overwrite ajax settings
@@ -91,9 +92,10 @@ var Frontend = function() { 'use strict';
 
     // init
     }, __construct = function() {
-        dump("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        dump('| Unimatrix Venture Digital Platform. |');
-        dump("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        dump("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        dump('| Unimatrix Venture Digital Platform -------- |');
+        dump('| version '+ store.version +' | http://venture.unimatrix.ro |');
+        dump("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
         // preload images
         _preload(typeof Preload === 'undefined' ? [] : Preload);
