@@ -35,16 +35,18 @@ div.online-payment {
                 text-align: right;
             }
 
-            div.online-payment > ul > li:nth-of-type(1) > img {
-                max-width: 280px;
-                width: 100%;
-            }
+                div.online-payment > ul > li:nth-of-type(1) > p > img {
+                    width: 100%;
+                    max-width: 280px;
+                    vertical-align: -6px;
+                }
 
-            div.online-payment > ul > li:nth-of-type(2) > img {
-                max-height: 30px;
-            }
+                div.online-payment > ul > li:nth-of-type(2) > p > img {
+                    max-height: 35px;
+                    vertical-align: -4px;
+                }
 
-@media screen and (max-width: 790px) {
+@media screen and (max-width: 756px) {
     div.online-payment > ul {
         display: block;
     }
