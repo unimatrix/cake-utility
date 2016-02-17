@@ -272,7 +272,7 @@ class MinifyHelper extends Helper {
      */
     private function _html($content) {
         // compress?
-        if(!Configure::read('debug') && $this->_config['html']['compression'])
+        if($this->_config['html']['compression'])
             $content = trim(\Minify_HTML::minify($content));
 
         // return
