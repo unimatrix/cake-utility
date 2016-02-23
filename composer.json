@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "cakephp/cakephp": "~3.1",
-        "mrclay/minify": "*"
+        "mrclay/minify": "dev-master#0b466c0892233268e6d5e3283fbd025c8445ea4e"
     },
     "autoload": {
         "psr-4": {

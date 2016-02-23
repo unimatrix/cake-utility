@@ -45,7 +45,7 @@ use Cake\Core\Exception\Exception;
  * $this->Minify->fetch('style', true);
  *
  * @author Flavius
- * @version 1.0
+ * @version 1.1
  */
 class MinifyHelper extends Helper {
     // load html and url helpers
@@ -180,6 +180,22 @@ class MinifyHelper extends Helper {
         // call private function
         $function = '_' . $what;
         $this->$function();
+    }
+
+    /**
+     * Fetch inline minified css or js
+     * @param string $what style | script
+     * @param string $data text that needs to be minified inline
+     * @throws Exception
+     */
+    public function inline($what = null, $data = null) {
+        // not supported?
+        if(!in_array($what, ['style', 'script']))
+            throw new Exception("{$what} not supported");
+
+        // call private function
+        $function = '_inline_' . $what;
+        $this->$function($data);
     }
 
     /**
@@ -349,5 +365,50 @@ class MinifyHelper extends Helper {
 
         // development mode, output separately with the HTML helper
         } else echo $this->Html->script($this->js['extern']);
+    }
+
+    /**
+     * Return the combined css data either compressed or not (depending on the setting)
+     * @param string $data
+     */
+    private function _inline_style($data = null) {
+        // no data?
+        if(is_null($data))
+            return false;
+
+        // replace relative paths to absolute paths
+        $data = preg_replace('/(\.\.\/)+/i', $this->Url->build('/', true), $data);
+
+        // compress?
+        if($this->_config['css']['compression']) {
+            $obj = new \CSSmin();
+            $data = trim($obj->run($data));
+        }
+
+        // not compressed
+        else $data = implode("\n", $data);
+
+        // output
+        echo "<style>{$data}</style>";
+    }
+
+    /**
+     * Return the combined js data either compressed or not (depending on the setting)
+     * @param string $data
+     */
+    private function _inline_script($data = null) {
+        // no data?
+        if(is_null($data))
+            return false;
+
+        // compress?
+        if($this->_config['js']['compression'])
+            $data = trim(\Minify_JS_ClosureCompiler::minify($data));
+
+        // not compressed
+        else $data = implode("\n", $data);
+
+        // output
+        echo "<script>{$data}</script>";
     }
 }
