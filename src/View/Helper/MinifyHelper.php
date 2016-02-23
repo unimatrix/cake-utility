@@ -385,9 +385,6 @@ class MinifyHelper extends Helper {
             $data = trim($obj->run($data));
         }
 
-        // not compressed
-        else $data = implode("\n", $data);
-
         // output
         echo "<style>{$data}</style>";
     }
@@ -403,10 +400,7 @@ class MinifyHelper extends Helper {
 
         // compress?
         if($this->_config['js']['compression'])
-            $data = trim(\Minify_JS_ClosureCompiler::minify($data));
-
-        // not compressed
-        else $data = implode("\n", $data);
+            $data = trim(\JSMin\JSMin::minify($data));
 
         // output
         echo "<script>{$data}</script>";
