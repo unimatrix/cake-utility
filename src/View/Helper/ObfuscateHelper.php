@@ -30,11 +30,11 @@ use Cake\Utility\Text;
  * ]);
  *
  * @author Flavius
- * @version 0.1
+ * @version 0.2
  */
 class ObfuscateHelper extends Helper {
     // load html and url helpers
-    public $helpers = ['Html'];
+    public $helpers = ['Html', 'Minify'];
 
     // default conf
     protected $_defaultConfig = [];
@@ -70,13 +70,11 @@ class ObfuscateHelper extends Helper {
         $obfuscated = str_rot13($this->Html->link($text, "mailto:{$address}{$query}"));
 
         // output
-        $output = "<span id='{$unique}'>
-            <script>
-                document.getElementById('{$unique}').innerHTML = '{$obfuscated}'.replace(/[a-zA-Z]/g, function(c) {
-                    return String.fromCharCode((c <= 'Z' ? 90 : 122) >= (c = c.charCodeAt(0) + 13) ? c : c - 26);
-                });
-            </script>
-        </span>";
+        $output = "<span id='{$unique}'>{$this->Minify->inline('script', "
+            document.getElementById('{$unique}').innerHTML = '{$obfuscated}'.replace(/[a-zA-Z]/g, function(c) {
+                return String.fromCharCode((c <= 'Z' ? 90 : 122) >= (c = c.charCodeAt(0) + 13) ? c : c - 26);
+            });
+        ", true)}</span>";
 
         // return output
         return $output;

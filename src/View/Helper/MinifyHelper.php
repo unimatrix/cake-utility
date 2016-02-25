@@ -45,7 +45,7 @@ use Cake\Core\Exception\Exception;
  * $this->Minify->fetch('style', true);
  *
  * @author Flavius
- * @version 1.1
+ * @version 1.2
  */
 class MinifyHelper extends Helper {
     // load html and url helpers
@@ -179,23 +179,28 @@ class MinifyHelper extends Helper {
 
         // call private function
         $function = '_' . $what;
-        $this->$function();
+        echo $this->$function();
     }
 
     /**
      * Fetch inline minified css or js
      * @param string $what style | script
      * @param string $data text that needs to be minified inline
+     * @param bool $return should we return or echo the minified data?
      * @throws Exception
      */
-    public function inline($what = null, $data = null) {
+    public function inline($what = null, $data = null, $return = false) {
         // not supported?
         if(!in_array($what, ['style', 'script']))
             throw new Exception("{$what} not supported");
 
         // call private function
         $function = '_inline_' . $what;
-        $this->$function($data);
+        $data = $this->$function($data);
+
+        // return or output?
+        if($return) return $data;
+        echo $data;
     }
 
     /**
@@ -328,10 +333,10 @@ class MinifyHelper extends Helper {
             }
 
             // output with the HTML helper
-            echo $this->Html->css($this->_config['css']['path'] . '/' . $cache);
+            return $this->Html->css($this->_config['css']['path'] . '/' . $cache);
 
         // development mode, output separately with the HTML helper
-        } else echo $this->Html->css($this->css['extern']);
+        } else return $this->Html->css($this->css['extern']);
     }
 
     /**
@@ -361,10 +366,10 @@ class MinifyHelper extends Helper {
             }
 
             // output with the HTML helper
-            echo $this->Html->script($this->_config['js']['path'] . '/' . $cache, $this->_config['js']['async'] == true ? ['async' => 'async'] : []);
+            return $this->Html->script($this->_config['js']['path'] . '/' . $cache, $this->_config['js']['async'] == true ? ['async' => 'async'] : []);
 
         // development mode, output separately with the HTML helper
-        } else echo $this->Html->script($this->js['extern']);
+        } else return $this->Html->script($this->js['extern']);
     }
 
     /**
@@ -386,7 +391,7 @@ class MinifyHelper extends Helper {
         }
 
         // output
-        echo "<style>{$data}</style>";
+        return "<style>{$data}</style>";
     }
 
     /**
@@ -403,6 +408,6 @@ class MinifyHelper extends Helper {
             $data = trim(\JSMin\JSMin::minify($data));
 
         // output
-        echo "<script>{$data}</script>";
+        return "<script>{$data}</script>";
     }
 }
