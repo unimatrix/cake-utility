@@ -5,8 +5,7 @@
     "homepage": "http://venture.unimatrix.ro",
     "license": "MIT",
     "require": {
-        "cakephp/cakephp": "~3.1",
-        "mrclay/minify": "dev-master#0b466c0892233268e6d5e3283fbd025c8445ea4e"
+        "cakephp/cakephp": "~3.1"
     },
     "autoload": {
         "psr-4": {

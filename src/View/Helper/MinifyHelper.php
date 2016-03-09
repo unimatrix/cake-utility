@@ -8,6 +8,10 @@ use Cake\View\Helper;
 use Cake\View\View;
 use Cake\Utility\Inflector;
 use Cake\Core\Exception\Exception;
+use Unimatrix\Utility\Lib\Min\JSMin;
+use Unimatrix\Utility\Lib\Min\CSSmin;
+use Unimatrix\Utility\Lib\Min\Minify_HTML;
+use Unimatrix\Utility\Lib\Min\Minify_JS_ClosureCompiler;
 
 /**
  * Minify
@@ -294,7 +298,7 @@ class MinifyHelper extends Helper {
     private function _html($content) {
         // compress?
         if($this->_config['html']['compression'])
-            $content = trim(\Minify_HTML::minify($content));
+            $content = trim(Minify_HTML::minify($content));
 
         // return
         return $content;
@@ -320,7 +324,7 @@ class MinifyHelper extends Helper {
 
                 // compress?
                 if($this->_config['css']['compression']) {
-                    $obj = new \CSSmin();
+                    $obj = new CSSmin();
                     foreach($chunks as $content)
                         $output .= trim($obj->run($content));
                 }
@@ -356,7 +360,7 @@ class MinifyHelper extends Helper {
                 // compress?
                 if($this->_config['js']['compression'])
                     foreach($chunks as $content)
-                        $output .= trim(\Minify_JS_ClosureCompiler::minify($content));
+                        $output .= trim(Minify_JS_ClosureCompiler::minify($content));
 
                 // not compressed
                 else $output = implode("\n", $chunks);
@@ -386,7 +390,7 @@ class MinifyHelper extends Helper {
 
         // compress?
         if($this->_config['css']['compression']) {
-            $obj = new \CSSmin();
+            $obj = new CSSmin();
             $data = trim($obj->run($data));
         }
 
@@ -405,7 +409,7 @@ class MinifyHelper extends Helper {
 
         // compress?
         if($this->_config['js']['compression'])
-            $data = trim(\JSMin\JSMin::minify($data));
+            $data = trim(JSMin::minify($data));
 
         // output
         return "<script>{$data}</script>";
