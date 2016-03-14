@@ -49,7 +49,7 @@ use Unimatrix\Utility\Lib\Min\Minify_JS_ClosureCompiler;
  * $this->Minify->fetch('style', true);
  *
  * @author Flavius
- * @version 1.2
+ * @version 1.3
  */
 class MinifyHelper extends Helper {
     // load html and url helpers
@@ -360,7 +360,9 @@ class MinifyHelper extends Helper {
                 // compress?
                 if($this->_config['js']['compression'])
                     foreach($chunks as $content)
-                        $output .= trim(Minify_JS_ClosureCompiler::minify($content));
+                        $output .= trim(Minify_JS_ClosureCompiler::minify($content, [
+                            'fallbackFunc' => ['Unimatrix\Utility\Lib\Min\JSMin', 'minify']
+                        ]));
 
                 // not compressed
                 else $output = implode("\n", $chunks);
