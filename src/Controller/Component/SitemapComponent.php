@@ -64,7 +64,7 @@ use Cake\I18n\Time;
  * --------------------------------------------------
  *
  * @author Flavius
- * @version 0.2
+ * @version 0.3
  */
 class SitemapComponent extends Component
 {
@@ -207,9 +207,9 @@ class SitemapComponent extends Component
      */
     protected function _path($asset) {
         list($plugin, $path) = pluginSplit($asset, false);
-
         $path = Inflector::underscore($plugin) . '/' . $path;
-        return rtrim(Router::fullBaseUrl(), '/') . '/' . ltrim($path, '/');
+
+        return Router::url('/'. $path, true);
     }
 
     /**
