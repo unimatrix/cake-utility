@@ -16,7 +16,7 @@ if(typeof DEV_ENV == 'undefined') DEV_ENV = true;
 // start frontend
 var Frontend = function() { 'use strict';
     var store = {
-    	version: '1.1.5',
+    	version: '1.1.6',
         js: {}
 
     // overwrite ajax settings
