@@ -17,30 +17,34 @@ use Unimatrix\Utility\Validation;
  *
  * Configuration:
  * -------------------------------------------------------
- * DB field should be 'avatar'.
- *
- * $this->addBehavior('Unimatrix/Utility.Uploadable', [
- *     'suffix' => '_upload',
- *     'fields' => [
- *         'avatar' => 'upload/:model/:md5'
- *     ]
- * ]);
- *
- * Also create the virtual field in the form:
- * $this->Form->input('avatar_upload', ['type' => 'file');
- *
- * You can also add validation
- * $validator
- *     ->requirePresence('avatar_upload', 'create')
- *     ->allowEmpty('avatar_upload', 'update');
+ * 1. DB field should be 'avatar'.
+ * 2. Add this behavior in the model table:
+ *    $this->addBehavior('Unimatrix/Utility.Uploadable', [
+ *        'suffix' => '_upload',
+ *        'fields' => [
+ *            'avatar' => 'upload/:model/:md5'
+ *        ]
+ *    ]);
+ * 3. Load upload form widget:
+ *    $this->loadHelper('Form', ['widgets' => [
+ *        'upload' => ['Unimatrix/Utility.Upload']
+ *    ]]);
+ * 4. Use in a form
+ *    echo $this->Form->input('avatar', ['type' => 'upload', 'suffix' => '_upload']);
+ * 5. Optional, you can also add validation in the model table
+ *    $validator
+ *        ->requirePresence('avatar_upload', 'create')
+ *        ->allowEmpty('avatar_upload', 'update');
+ * -------------------------------------------------------
+ * The suffix configuration is optional, just make sure it's the same
+ * everywhere: behavior, form and validation
  *
  * Identifiers:
  * -------------------------------------------------------
  * :model: The model name
  * :md5: A random and unique identifier with 32 characters.
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *
  * eg: upload/:model/:md5 -> upload/users/5e3e0d0f163196cb9526d97be1b2ce26.jpg
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *
  * @author Flavius
  * @version 0.1
