@@ -43,7 +43,7 @@ use Cake\I18n\Time;
  *
  * ALSO
  *
- * In case your route is dynamic (if it contains `*`, EG: $routes->connect('/pages/*', ...)
+ * In case your route is dynamic (if it contains `*` or `:slug`, EG: $routes->connect('/pages/*', ...), $routes->connect('/pages/:slug', ...)
  * SitemapComponent will attempt to call the method `dynamic_sitemap` from the controller where you can calculate your own urls and modified time. EG:
  * --------------------------------------------------
  * public function dynamic_sitemap() {
@@ -64,7 +64,7 @@ use Cake\I18n\Time;
  * --------------------------------------------------
  *
  * @author Flavius
- * @version 0.3
+ * @version 0.4
  */
 class SitemapComponent extends Component
 {
@@ -116,7 +116,7 @@ class SitemapComponent extends Component
             $priority = isset($route->options['sitemap']['priority']) ? $route->options['sitemap']['priority'] : '0.6';
 
             // dynamic? execute callback if it exists
-            if(strpos($route->template, '*') !== false) {
+            if(strpos($route->template, '*') !== false || strpos($route->template, ':slug') !== false) {
                 $callback = $this->_callback($route, true);
                 if($callback)
                     if(is_array($callback))
