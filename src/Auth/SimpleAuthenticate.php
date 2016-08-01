@@ -10,15 +10,15 @@ use Cake\Auth\BaseAuthenticate;
 /**
  * Simple Auth
  *
- * Config example:
+ * Basic Config example:
  * ------------------------------------
  * 'SimpleAuth' => [
  *     'username' => 'admin',
  *     'password' => 'humanresources'
  * ],
  *
- * Usage example:
- * ------------------------------------
+ * Basic Usage example:
+* ----------------------------------------------------------
  * $this->loadComponent('Auth', [
  *     'authenticate' => ['Unimatrix/Utility.Simple'],
  *     'loginAction' => [
@@ -27,8 +27,27 @@ use Cake\Auth\BaseAuthenticate;
  *     ]
  * ]);
  *
+ * Different backend / frontend login config example:
+ * ----------------------------------------------------------
+ * 'SimpleAuth' => [
+ *     'backend' => [
+ *         'username' => 'admin',
+ *         'password' => 'humanresources'
+ *     ]
+ * ],
+ *
+ * Different backend / frontend login usage example:
+ * ----------------------------------------------------------
+ * $this->loadComponent('Auth', [
+ *     'authenticate' => ['Unimatrix/Utility.Simple' => ['type' => 'backend']],
+ *     'loginAction' => [
+ *         'controller' => 'Admin',
+ *         'action' => 'login'
+ *     ]
+ * ]);
+ *
  * @author Flavius
- * @version 0.1
+ * @version 0.2
  */
 class SimpleAuthenticate extends BaseAuthenticate
 {
@@ -41,7 +60,7 @@ class SimpleAuthenticate extends BaseAuthenticate
      */
     public function authenticate(Request $request, Response $response) {
         // get config
-        $config = Configure::read('SimpleAuth');
+        $config = Configure::read('SimpleAuth' . (!is_null($this->config('type')) ? '.' . $this->config('type') : null));
         if(!$config || empty($config) || !isset($config['username']) || !isset($config['password']))
             return false;
 
