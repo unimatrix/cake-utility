@@ -6,7 +6,7 @@ use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
-use Cake\Utility\Inflector;
+use Cake\Utility\Text;
 
 /**
  * Sluggable
@@ -15,7 +15,8 @@ use Cake\Utility\Inflector;
  * Field: db field to take the slug string from (title, name)
  * Slug: db field to save the slug to (slug)
  * Replacement: replace invalid characters with this character
- * Overwrite: Overwrite the slug upon edidting the entity?
+ * Overwrite: overwrite the slug upon edidting the entity?
+ * Unique: check if the slug already exists and make it unique
  *
  * Configuration:
  * -------------------------------------------------------
@@ -23,7 +24,8 @@ use Cake\Utility\Inflector;
  *     'field' => 'title',
  *     'slug' => 'slug',
  *     'replacement' => '-',
- *     'overwrite' => false
+ *     'overwrite' => false,
+ *     'unique' => true
  * ]);
  *
  * Multiple fields to sluggify at once:
@@ -32,12 +34,14 @@ use Cake\Utility\Inflector;
  *     'field' => 'title_ro',
  *     'slug' => 'slug_ro',
  *     'replacement' => '-',
- *     'overwrite' => false
+ *     'overwrite' => false,
+ *     'unique' => true
  * ], [
  *     'field' => 'title_en',
  *     'slug' => 'slug_en',
  *     'replacement' => '-',
- *     'overwrite' => false
+ *     'overwrite' => false,
+ *     'unique' => true
  * ]]);
  *
  * Slug finder:
@@ -48,7 +52,7 @@ use Cake\Utility\Inflector;
  * ]);
  *
  * @author Flavius
- * @version 0.2
+ * @version 0.3
  */
 class SluggableBehavior extends Behavior {
 
@@ -61,17 +65,42 @@ class SluggableBehavior extends Behavior {
 		'slug' => 'slug',
 		'replacement' => '-',
         'overwrite' => false,
+        'unique' => true,
 	    'multiple' => []
 	];
 
     /**
      * Slug a field passed in the default config with its replacement.
      * @param $value The string that needs to be processed
-     * @param $replacement The replacement string
+     * @param $config The config array is passed here
      * @return string
      */
-	private function slug($value = null, $replacement = '-') {
-        return strtolower(Inflector::slug($value, $replacement));
+	private function slug($value = null, $config = []) {
+	    // generate slug
+	    $slug = strtolower(Text::slug($value, $config['replacement']));
+
+        // unique slug?
+        if($config['unique']) {
+            // does the slug already exist in db?
+    	    $field = $this->_table->alias() . '.' . $config['slug'];
+    	    $conditions = [$field => $slug];
+    	    $suffix = '';
+    	    $i = 0;
+
+    	    // loop till unique slug is found
+            while ($this->_table->exists($conditions)) {
+    			$i++;
+    			$suffix	= $config['replacement'] . $i;
+    			$conditions[$field] = $slug . $suffix;
+    		}
+
+    		// got suffix? append it
+    		if($suffix)
+    			$slug .= $suffix;
+        }
+
+		// return slug
+        return $slug;
 	}
 
     /**
@@ -86,14 +115,19 @@ class SluggableBehavior extends Behavior {
 
 		// multiple fields to slugify
 		if(!empty($config['multiple'])) {
-		    foreach($config['multiple'] as $one)
-                if(!$entity->get($one['slug']) || (isset($one['overwrite']) ? $one['overwrite'] : $config['overwrite']))
-                    $entity->set($one['slug'], $this->slug($entity->get($one['field']), isset($one['replacement']) ? $one['replacement'] : $config['replacement']));
+		    foreach($config['multiple'] as $one) {
+		        // grab a config with default settings
+		        $default = $config;
+		        unset($default['multiple']);
+		        $one = array_merge($default, $one);
+		        if(!$entity->get($one['slug']) || $one['overwrite'])
+		            $entity->set($one['slug'], $this->slug($entity->get($one['field']), $one));
+		    }
 
         // one field to slugify
         } else {
             if(!$entity->get($config['slug']) || $config['overwrite'])
-                $entity->set($config['slug'], $this->slug($entity->get($config['field']), $config['replacement']));
+                $entity->set($config['slug'], $this->slug($entity->get($config['field']), $config));
         }
 	}
 
