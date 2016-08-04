@@ -1,0 +1,64 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2016-08-04 19:14+0300\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: /cakephp-utility/src/Lib/Captcha.php:83
+msgid "Zero"
+msgstr "Zero"
+
+#: /cakephp-utility/src/Lib/Captcha.php:83
+msgid "Unu"
+msgstr "One"
+
+#: /cakephp-utility/src/Lib/Captcha.php:83
+msgid "Doi"
+msgstr "Two"
+
+#: /cakephp-utility/src/Lib/Captcha.php:84
+msgid "Trei"
+msgstr "Three"
+
+#: /cakephp-utility/src/Lib/Captcha.php:84
+msgid "Patru"
+msgstr "Four"
+
+#: /cakephp-utility/src/Lib/Captcha.php:84
+msgid "Cinci"
+msgstr "Five"
+
+#: /cakephp-utility/src/Lib/Captcha.php:85
+msgid "Șase"
+msgstr "Six"
+
+#: /cakephp-utility/src/Lib/Captcha.php:85
+msgid "Șapte"
+msgstr "Seven"
+
+#: /cakephp-utility/src/Lib/Captcha.php:85
+msgid "Opt"
+msgstr "Eight"
+
+#: /cakephp-utility/src/Lib/Captcha.php:86
+msgid "Nouă"
+msgstr "Nine"
+
+#: /cakephp-utility/src/Lib/Captcha.php:86
+msgid "Zece"
+msgstr "Ten"
+
+#: /cakephp-utility/src/Lib/Captcha.php:90
+msgid "plus"
+msgstr "plus"
+

@@ -25,7 +25,7 @@ namespace Unimatrix\Utility\Lib;
  *     $model->errors('captcha', ['Rezultatul matematic nu este corect']);
  *
  * @author Flavius
- * @version 0.1
+ * @version 0.2
  */
 class Captcha {
     public $field = null;
@@ -80,13 +80,13 @@ class Captcha {
     public function __toString() {
         $f = function($i) {
             switch ($i) {
-                case 0: return __('Zero'); case 1:  return __('Unu');   case 2: return __('Doi');
-                case 3: return __('Trei'); case 4:  return __('Patru'); case 5: return __('Cinci');
-                case 6: return __('Șase'); case 7:  return __('Șapte'); case 8: return __('Opt');
-                case 9: return __('Nouă'); case 10: return __('Zece');
+                case 0: return __d('captcha', 'Zero'); case 1:  return __d('captcha', 'Unu');   case 2: return __d('captcha', 'Doi');
+                case 3: return __d('captcha', 'Trei'); case 4:  return __d('captcha', 'Patru'); case 5: return __d('captcha', 'Cinci');
+                case 6: return __d('captcha', 'Șase'); case 7:  return __d('captcha', 'Șapte'); case 8: return __d('captcha', 'Opt');
+                case 9: return __d('captcha', 'Nouă'); case 10: return __d('captcha', 'Zece');
             }
         };
 
-        return $f($this->_a) . ' ' . __('plus') . ' ' . $f($this->_b);
+        return $f($this->_a) . ' ' . __d('captcha', 'plus') . ' ' . $f($this->_b);
     }
 }
