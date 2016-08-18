@@ -6,9 +6,11 @@ use Cake\Core\Configure;
 use Cake\Network\Request;
 use Cake\Network\Response;
 use Cake\Auth\BaseAuthenticate;
+use Cake\Controller\Component\CookieComponent;
 
 /**
  * Simple Auth
+ * - Uses cookie to store login info if the cookie component is loaded
  *
  * Basic Config example:
  * ------------------------------------
@@ -46,8 +48,21 @@ use Cake\Auth\BaseAuthenticate;
  *     ]
  * ]);
  *
+ * Cookie autologin (in controller)
+ * ----------------------------------------------------------
+ * public function beforeFilter(Event $event) {
+ *     parent::beforeFilter($event);
+ *
+ *     if(!$this->Auth->user() && $this->Cookie->read('SimpleAuth')) {
+ *         $user = $this->Auth->identify();
+ *
+ *         if($user) $this->Auth->setUser($user);
+ *         else $this->Cookie->delete('SimpleAuth');
+ *     }
+ * }
+ *
  * @author Flavius
- * @version 0.2
+ * @version 0.3
  */
 class SimpleAuthenticate extends BaseAuthenticate
 {
@@ -64,11 +79,55 @@ class SimpleAuthenticate extends BaseAuthenticate
         if(!$config || empty($config) || !isset($config['username']) || !isset($config['password']))
             return false;
 
+        // got cookie?
+        if($this->cookieLoaded()) {
+            $cookie = $this->_registry->Cookie->read('SimpleAuth');
+            if($cookie)
+                $request->data = $cookie;
+        }
+
         // match against form data
         $valid = $request->data === $config;
-        unset($config['password']);
 
-        // return output
+        // save to cookie
+        if($valid && $this->cookieLoaded()) {
+            $this->_registry->Cookie->configKey('SimpleAuth', ['expires' => '+1 month']);
+            $this->_registry->Cookie->write('SimpleAuth', $request->data);
+        }
+
+        // return output (without password)
+        unset($config['password']);
         return $valid ? $config : false;
+    }
+
+    /**
+     * Returns a list of all events that this authenticate class will listen to.
+     *
+     * @return array
+     */
+    public function implementedEvents() {
+        return [
+            'Auth.logout' => 'logout'
+        ];
+    }
+
+    /**
+     * Delete cookies when an user logout.
+     *
+     * @param \Cake\Event\Event  $event The logout Event.
+     * @param array $user The user about to be logged out.
+     *
+     * @return void
+     */
+    public function logout(Event $event, array $user) {
+        if($this->cookieLoaded())
+            $this->_registry->Cookie->delete('SimpleAuth');
+    }
+
+    /**
+     * Is the Cookie Component loaded?
+     */
+    private function cookieLoaded() {
+        return isset($this->_registry->Cookie) && $this->_registry->Cookie instanceof CookieComponent;
     }
 }
