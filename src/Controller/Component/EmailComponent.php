@@ -56,7 +56,7 @@ use Unimatrix\Utility\Lib\Misc;
  * $this->Email->debug('New subscriber', $this->request->data['email'], true, false);
  *
  * @author Flavius
- * @version 0.2
+ * @version 0.3
  */
 class EmailComponent extends Component
 {
@@ -95,9 +95,11 @@ class EmailComponent extends Component
         // sort before using
         ksort($location);
 
-        // overwrite location
-        if(isset($location[1]) && $location[1] == 'Unimatrix\Utility\Error\EmailErrorHandler')
-            $location = ['EmailErrorHandler'];
+        // overwrite locations
+        if(isset($location[1])) {
+            if($location[1] == 'Unimatrix\Utility\Console\EmailConsoleErrorHandler') $location = ['EmailConsoleErrorHandler'];
+            elseif($location[1] == 'Unimatrix\Utility\Error\EmailErrorHandler') $location = ['EmailErrorHandler'];
+        }
 
         // brand
         $from = $email->from();

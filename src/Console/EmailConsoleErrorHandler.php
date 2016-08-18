@@ -1,31 +1,31 @@
 <?php
 
-namespace Unimatrix\Utility\Error;
+namespace Unimatrix\Utility\Console;
 
 use Unimatrix\Utility\Lib\Misc;
 use Unimatrix\Utility\Controller\Component\EmailComponent;
 use Cake\Controller\ComponentRegistry;
-use Cake\Error\ErrorHandler;
+use Cake\Console\ConsoleErrorHandler;
 use Cake\Core\Configure;
 use Exception;
 
 /**
- * Email Error Handler
+ * Email Console Error Handler (for cli)
  * Send a debug email for each fatal error or exception that is not catched.
  * Note: Only works on live environments (debug = false)
  *
  * Usage exmaple (in bootstrap)
  * ----------------------------------------------------------------
- * search for -> (new ErrorHandler(Configure::read('Error')))->register();
- * replace with -> (new EmailErrorHandler(Configure::read('Error')))->register();
+ * search for -> (new ConsoleErrorHandler(Configure::read('Error')))->register();
+ * replace with -> (new EmailConsoleErrorHandler(Configure::read('Error')))->register();
  *
  * Don't forget about
- * use Unimatrix\Utility\Error\EmailErrorHandler;
+ * use Unimatrix\Utility\Console\EmailConsoleErrorHandler;
  *
  * @author Flavius
- * @version 0.3
+ * @version 0.1
  */
-class EmailErrorHandler extends ErrorHandler
+class EmailConsoleErrorHandler extends ConsoleErrorHandler
 {
     // debug & email
     private $debug = false;
@@ -33,10 +33,7 @@ class EmailErrorHandler extends ErrorHandler
 
     // skip these errors and exceptions
     protected $_skipErrors = [E_NOTICE, E_WARNING];
-    protected $_skipExceptions = [
-        'Cake\Network\Exception\NotFoundException',
-        'Cake\Routing\Exception\MissingRouteException'
-    ];
+    protected $_skipExceptions = [];
 
     /**
      * Constructor
