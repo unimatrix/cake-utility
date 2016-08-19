@@ -16,7 +16,7 @@ use Cake\Network\Exception\NotFoundException;
  * containing one or more url to check
  *
  * @author Flavius
- * @version 0.1
+ * @version 0.2
  */
 class SocialController extends AppController
 {
@@ -81,6 +81,13 @@ class SocialController extends AppController
  * @version 0.1
  */
 class Social {
+    // agent
+    private $agent = [
+        'method' => "GET",
+        'header' => "Accept-language: en\r\n" .
+        "User-Agent: Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.102011-10-16 20:23:10\r\n"
+    ];
+
     /**
      * URL helper
      * @param string $url
@@ -105,12 +112,11 @@ class Social {
             return false;
 
         // get counter
-        $fql  = "SELECT share_count, like_count FROM link_stat WHERE url = '{$url}'";
-        $fqlURL = "https://api.facebook.com/method/fql.query?format=json&query=" . urlencode($fql);
-        $json = json_decode(file_get_contents($fqlURL));
+        $contents = file_get_contents('https://www.facebook.com/plugins/like.php?href=' . urlencode($url) . '&width=50&layout=box_count&action=like&size=small&show_faces=false&share=true&height=65', false, stream_context_create(['http' => $this->agent]));
+        preg_match('/\<span class\=\"pluginCountTextDisconnected\"\>([\d]+)\<\/span\>/', $contents, $matches);
 
         // return counter
-        return (int)$json[0]->like_count + $json[0]->share_count;
+        return isset($matches[1]) ? (int)$matches[1] : 0;
     }
 
     /**
@@ -125,11 +131,11 @@ class Social {
             return false;
 
         // get counter
-        $contents = file_get_contents('https://plusone.google.com/_/+1/fastbutton?url=' . urlencode($url));
-        preg_match('/window\.__SSR = {c: ([\d]+)/', $contents, $matches);
+        $contents = file_get_contents('https://plusone.google.com/_/+1/fastbutton?url=' . urlencode($url), false, stream_context_create(['http' => $this->agent]));
+        preg_match('/window\.__SSR = {c: ([0-9]*\.[0-9]+|[0-9]+) \,a/', $contents, $matches);
 
         // return counter
-        return isset($matches[0]) ? (int)str_replace('window.__SSR = {c: ', '', $matches[0]) : 0;
+        return isset($matches[1]) ? (int)$matches[1] : 0;
     }
 
     /**
