@@ -49,7 +49,7 @@ use Unimatrix\Utility\Lib\Min\Minify_JS_ClosureCompiler;
  * $this->Minify->fetch('style', true);
  *
  * @author Flavius
- * @version 1.3
+ * @version 1.4
  */
 class MinifyHelper extends Helper {
     // load html and url helpers
@@ -296,6 +296,12 @@ class MinifyHelper extends Helper {
      * @return string
      */
     private function _html($content) {
+        // got a script to be parsed at the end?
+        if(preg_match_all('#<scriptend>(.*?)</scriptend>#s', $content, $matches)) {
+            $content = preg_replace('#<scriptend>.*?</scriptend>#s', null, $content);
+            $content = str_replace('</body>', $this->_inline_script(implode(null, $matches[1])) . '</body>', $content);
+        }
+
         // compress?
         if($this->_config['html']['compression'])
             $content = trim(Minify_HTML::minify($content));
