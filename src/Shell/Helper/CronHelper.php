@@ -30,7 +30,7 @@ use Cron\CronExpression;
  * Don't forget to run `composer require mtdowling/cron-expression`
  *
  * @author Flavius
- * @version 0.1
+ * @version 0.2
  */
 class CronHelper extends Helper
 {
@@ -45,14 +45,8 @@ class CronHelper extends Helper
     private $jobs = [];
 
     /**
-     * List of cron jobs to run.
-     * @var array
-     */
-    private $jobsToRun = [];
-
-    /**
      * Load the cron jobs that should be runned and register them into the
-	 * jobsToRun array.
+	 * jobs array.
      */
     public function addJob($job = []) {
         if(!isset($job['msg']))
@@ -65,7 +59,7 @@ class CronHelper extends Helper
             throw new RuntimeException('Job without a function');
 
         if($this->isDue($job['schedule']))
-			$this->jobsToRun[] = $job;
+			$this->jobs[] = $job;
     }
 
 	/**
@@ -103,8 +97,8 @@ class CronHelper extends Helper
 	 * Return the list of jubs to run.
 	 * @return array
 	 */
-	public function getJobsToRun() {
-		return $this->jobsToRun;
+	public function getJobs() {
+		return $this->jobs;
 	}
 
 	/**
@@ -113,11 +107,11 @@ class CronHelper extends Helper
 	 */
 	public function output($args = null) {
 		$i = 0;
-		foreach ($this->jobsToRun as $job)
+		foreach ($this->jobs as $job)
 		    if($job['function']($job['msg']) === TRUE)
 		        $i++;
 
-		$this->jobsToRun = [];
+		$this->jobs = [];
 		return $i;
 	}
 }
