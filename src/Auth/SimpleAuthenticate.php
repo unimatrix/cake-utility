@@ -2,6 +2,7 @@
 
 namespace Unimatrix\Utility\Auth;
 
+use Cake\Event\Event;
 use Cake\Core\Configure;
 use Cake\Network\Request;
 use Cake\Network\Response;
