@@ -30,7 +30,7 @@ use Cron\CronExpression;
  * Don't forget to run `composer require mtdowling/cron-expression`
  *
  * @author Flavius
- * @version 0.2
+ * @version 0.3
  */
 class CronHelper extends Helper
 {
@@ -82,15 +82,15 @@ class CronHelper extends Helper
 	 *   |    +-------------------- hour (0 - 23)
 	 *   +------------------------- min (0 - 59)
 	 *
-	 * @param string $pCronExpr The cron expression
+	 * @param string $expr The cron expression
 	 * @return bool
 	 */
-	private function isDue($pCronExpr) {
-		$currentDate = date('Y-m-d H:i');
-		$currentTime = strtotime($currentDate);
+	private function isDue($expr) {
+		$date = date('Y-m-d H:i');
+		$time = strtotime($date);
 
-		$cron = CronExpression::factory($pCronExpr);
-		return ($currentTime == $cron->getNextRunDate($currentDate, 0, true)->getTimestamp());
+		$cron = CronExpression::factory($expr);
+		return ($time == $cron->getNextRunDate($date, 0, true)->getTimestamp());
 	}
 
 	/**
