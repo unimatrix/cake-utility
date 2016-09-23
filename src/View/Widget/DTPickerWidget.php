@@ -4,9 +4,9 @@ namespace Unimatrix\Utility\View\Widget;
 
 use Cake\View\Widget\WidgetInterface;
 use Cake\View\Form\ContextInterface;
-use Cake\Utility\Text;
 use Cake\I18n\FrozenTime;
 use Cake\I18n\FrozenDate;
+use Cake\Utility\Text;
 
 /**
  * DTPicker
@@ -20,7 +20,7 @@ use Cake\I18n\FrozenDate;
  * echo $this->Form->input('date3', ['type' => 'dtpicker', 'mode' => 'time']);
  *
  * @author Flavius
- * @version 0.1
+ * @version 0.2
  */
 class DTPickerWidget implements WidgetInterface
 {
@@ -72,23 +72,25 @@ class DTPickerWidget implements WidgetInterface
         $data['class'] = $data['type'];
         unset($data['val'], $data['mode']);
 
+        // transform into frozen time if not already
+        if(!($data['value'] instanceof FrozenTime || $data['value'] instanceof FrozenDate))
+            $data['value'] = new FrozenTime($data['value']);
+
         // transform values
-        if($data['value'] instanceof FrozenTime || $data['value'] instanceof FrozenDate) {
-            if($mode == 'datetime') {
-                $hval = $data['value']->format('Y-m-d H:i:s');
-                $data['value'] = $data['value']->format('d-M-Y H:i:s');
-            }
-            if($mode == 'date') {
-                $hval = $data['value']->format('Y-m-d');
-                $data['value'] = $data['value']->format('d-M-Y');
-            }
-            if($mode == 'time')
-                $hval = $data['value'] = $data['value']->format('H:i:s');
+        if($mode == 'datetime') {
+            $hval = $data['value']->format('Y-m-d H:i:s');
+            $data['value'] = $data['value']->format('d-M-Y H:i:s');
         }
+        if($mode == 'date') {
+            $hval = $data['value']->format('Y-m-d');
+            $data['value'] = $data['value']->format('d-M-Y');
+        }
+        if($mode == 'time')
+            $hval = $data['value'] = $data['value']->format('H:i:s');
 
         // render
         $rand = Text::uuid();
-        return "<div id='{$rand}'>" . $this->_templates->format('input', [
+        return "<div id='{$rand}' style='position: relative;'>" . $this->_templates->format('input', [
             'name' => $data['name'],
             'type' => 'hidden',
             'attrs' => $this->_templates->formatAttributes(['value' => $hval]),
