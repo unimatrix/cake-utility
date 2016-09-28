@@ -5,6 +5,7 @@ namespace Unimatrix\Utility\View\Widget;
 use Cake\View\Widget\WidgetInterface;
 use Cake\View\Form\ContextInterface;
 use Cake\View\View;
+use Cake\Core\Exception\Exception;
 
 /**
  * Upload
@@ -15,7 +16,7 @@ use Cake\View\View;
  * read the configuration in the uploadable behaviour
  *
  * @author Flavius
- * @version 0.1
+ * @version 0.2
  */
 class UploadWidget implements WidgetInterface
 {
@@ -70,9 +71,12 @@ class UploadWidget implements WidgetInterface
      * {@inheritDoc}
      */
     public function secureFields(array $data) {
+        if(!isset($data['suffix']))
+            throw new Exception("You forgot to add the suffix to the form field '{$data['name']}'");
+
         $fields = [];
         foreach(['name', 'type', 'tmp_name', 'error', 'size'] as $suffix)
-            $fields[] = $data['name'] . '[' . $suffix . ']';
+            $fields[] = $data['name'] . $data['suffix'] . '[' . $suffix . ']';
 
         return $fields;
     }
