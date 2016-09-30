@@ -16,10 +16,11 @@ use Cake\Core\Configure;
  * // controller
  * use Unimatrix\Utility\Lib\Paranoia;
  *
- * $encrypted = Paranoia::encrypt('string_to_encrypt'));
+ * $encrypted = Paranoia::encrypt('string_to_encrypt');
+ * $decrypted = Paranoia::decrypt('string_to_decrypt');
  *
  * @author Flavius
- * @version 0.2
+ * @version 0.3
  */
 class Paranoia {
     /**
@@ -41,7 +42,7 @@ class Paranoia {
      * @return null|string
      */
     public static function encrypt($a = null, $s = null) { $s = self::secret($s);
-        return is_null($a) ? null : strtr(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($s), serialize($a), MCRYPT_MODE_CBC, md5($s))), '+/=', '-_@');
+        return is_null($a) ? null : strtr(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($s), serialize($a), MCRYPT_MODE_CBC, md5($s))), '+/=', '-_.');
     }
 
     /**
@@ -52,6 +53,6 @@ class Paranoia {
      * @return null|string
      */
     public static function decrypt($a = null, $s = null) { $s = self::secret($s);
-        return is_null($a) ? null : unserialize(rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($s), base64_decode(strtr($a, '-_@', '+/=')), MCRYPT_MODE_CBC, md5($s)), "\0"));
+        return is_null($a) ? null : unserialize(rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($s), base64_decode(strtr($a, '-_.', '+/=')), MCRYPT_MODE_CBC, md5($s)), "\0"));
     }
 }
