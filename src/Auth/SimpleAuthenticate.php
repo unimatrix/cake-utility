@@ -63,7 +63,7 @@ use Cake\Controller\Component\CookieComponent;
  * }
  *
  * @author Flavius
- * @version 0.3
+ * @version 0.4
  */
 class SimpleAuthenticate extends BaseAuthenticate
 {
@@ -87,11 +87,15 @@ class SimpleAuthenticate extends BaseAuthenticate
                 $request->data = $cookie;
         }
 
+        // remember?
+        $remember = isset($request->data['remember']) && $request->data['remember'] == 1;
+        unset($request->data['remember']);
+
         // match against form data
         $valid = $request->data === $config;
 
         // save to cookie
-        if($valid && $this->cookieLoaded()) {
+        if($remember && $valid && $this->cookieLoaded()) {
             $this->_registry->Cookie->configKey('SimpleAuth', ['expires' => '+1 month']);
             $this->_registry->Cookie->write('SimpleAuth', $request->data);
         }
