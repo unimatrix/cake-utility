@@ -20,7 +20,7 @@ use Cake\Utility\Text;
  * echo $this->Form->input('date3', ['type' => 'dtpicker', 'mode' => 'time']);
  *
  * @author Flavius
- * @version 0.2
+ * @version 0.3
  */
 class DTPickerWidget implements WidgetInterface
 {
@@ -88,6 +88,9 @@ class DTPickerWidget implements WidgetInterface
         if($mode == 'time')
             $hval = $data['value'] = $data['value']->format('H:i:s');
 
+        // add field type
+        $data['data-field'] = $mode;
+
         // render
         $rand = Text::uuid();
         return "<div id='{$rand}' style='position: relative;'>" . $this->_templates->format('input', [
@@ -96,7 +99,7 @@ class DTPickerWidget implements WidgetInterface
             'attrs' => $this->_templates->formatAttributes(['value' => $hval]),
         ]) . $this->_templates->format('input', [
             'name' => $data['name'] . '-' . $rand,
-            'type' => $mode,
+            'type' => 'text',
             'templateVars' => $data['templateVars'],
             'attrs' => $this->_templates->formatAttributes(
                 $data,
