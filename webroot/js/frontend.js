@@ -92,11 +92,6 @@ var Frontend = function() { 'use strict';
 
     // init
     }, __construct = function() {
-        dump("+-------------------------------------------+");
-        dump('| Unimatrix Venture Digital Platform System | ');
-        dump('| version '+ store.version +' | http://venture.unimatrix.ro |');
-        dump("+-------------------------------------------+");
-
         // preload images
         _preload(typeof Preload === 'undefined' ? [] : Preload);
 
