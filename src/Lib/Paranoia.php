@@ -20,7 +20,7 @@ use Cake\Core\Configure;
  * $decrypted = Paranoia::decrypt('string_to_decrypt');
  *
  * @author Flavius
- * @version 0.3
+ * @version 0.4
  */
 class Paranoia {
     /**
@@ -41,8 +41,11 @@ class Paranoia {
      * @param string $s Paranoia secret
      * @return null|string
      */
-    public static function encrypt($a = null, $s = null) { $s = self::secret($s);
-        return is_null($a) ? null : strtr(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($s), serialize($a), MCRYPT_MODE_CBC, md5($s))), '+/=', '-_.');
+    public static function encrypt($a = null, $s = null) {
+        $s = self::secret($s);
+        $z = openssl_encrypt(serialize($a), 'AES-256-CBC', md5($s), OPENSSL_RAW_DATA, substr(md5($s), 0, 16));
+
+        return is_null($a) ? null : strtr(base64_encode($z), '+/=', '-_.');
     }
 
     /**
@@ -52,7 +55,10 @@ class Paranoia {
      * @param string $s Paranoia secret
      * @return null|string
      */
-    public static function decrypt($a = null, $s = null) { $s = self::secret($s);
-        return is_null($a) ? null : unserialize(rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($s), base64_decode(strtr($a, '-_.', '+/=')), MCRYPT_MODE_CBC, md5($s)), "\0"));
+    public static function decrypt($a = null, $s = null) {
+        $s = self::secret($s);
+        $z = openssl_decrypt(base64_decode(strtr($a, '-_.', '+/=')), 'AES-256-CBC', md5($s), OPENSSL_RAW_DATA, substr(md5($s), 0, 16));
+
+        return is_null($a) ? null : unserialize(rtrim($z, "\0"));
     }
 }
