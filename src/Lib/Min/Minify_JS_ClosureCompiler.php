@@ -63,7 +63,7 @@ class Minify_JS_ClosureCompiler {
      *
      * @var string $url URL of compiler server. defaults to Google's
      */
-    protected $serviceUrl = 'http://closure-compiler.appspot.com/compile';
+    protected $serviceUrl = 'https://closure-compiler.appspot.com/compile';
 
     /**
      *
